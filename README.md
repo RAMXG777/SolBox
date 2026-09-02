@@ -41,18 +41,29 @@ flowchart LR
     ORM -->|Consulta/Guarda| DB[(PostgreSQL en Neon)]
     API -->|Respuesta JSON| User
     API -->|Respuesta JSON| Admin
-📊 Matriz de Funcionalidades por Rol
-Función	Usuario	Admin
-Registro / Login	✅	✅
-Ver boxeadores	✅	✅
-Crear boxeador	❌	✅
-Actualizar boxeador	❌	✅
-Eliminar boxeador	❌	✅
-Ver peleas	✅	✅
-Crear torneo	❌	✅
-⚡ Inicio Rápido
-🔧 Instalación local
-bash
+```
+
+---
+
+## 📊 Matriz de Funcionalidades por Rol
+
+| Función | Usuario | Admin |
+| :--- | :---: | :---: |
+| Registro / Login | ✅ | ✅ |
+| Ver boxeadores | ✅ | ✅ |
+| Crear boxeador | ❌ | ✅ |
+| Actualizar boxeador | ❌ | ✅ |
+| Eliminar boxeador | ❌ | ✅ |
+| Ver peleas | ✅ | ✅ |
+| Crear torneo | ❌ | ✅ |
+
+---
+
+## ⚡ Inicio Rápido
+
+### 🔧 Instalación local
+
+```bash
 # Clonar el repositorio
 git clone https://github.com/RAMXG777/mi-backend-2026.git
 cd mi-backend-2026
@@ -74,72 +85,109 @@ alembic upgrade head
 
 # Levantar servidor
 uvicorn main:app --reload
-🐳 Con Docker (opcional)
-bash
+```
+
+### 🐳 Con Docker (opcional)
+
+```bash
 docker build -t solbox-api .
 docker run -p 8000:8000 --env-file .env solbox-api
-📡 Endpoints Principales
-Método	Ruta	Rol	Descripción
-POST	/register	Público	Registro de usuario
-POST	/token	Público	Login y obtención de JWT
-GET	/entrenadores/me	Usuario	Datos del perfil autenticado
-GET	/boxeadores/	Usuario	Lista de boxeadores
-POST	/boxeadores/	Admin	Crear boxeador
-PUT	/boxeadores/{id}	Admin	Actualizar boxeador
-DELETE	/boxeadores/{id}	Admin	Eliminar boxeador
-GET	/peleas/	Usuario	Lista de peleas
-POST	/torneos/	Admin	Crear torneo
-GET	/health	Público	Estado del servidor
-📥 Ejemplos de Petición / Respuesta
-<details> <summary><b>📝 Registro de usuario (POST /register)</b></summary>
-Petición:
+```
 
-json
+---
+
+## 📡 Endpoints Principales
+
+| Método | Ruta | Rol | Descripción |
+| :--- | :--- | :--- | :--- |
+| POST | `/register` | Público | Registro de usuario |
+| POST | `/token` | Público | Login y obtención de JWT |
+| GET | `/entrenadores/me` | Usuario | Datos del perfil autenticado |
+| GET | `/boxeadores/` | Usuario | Lista de boxeadores |
+| POST | `/boxeadores/` | Admin | Crear boxeador |
+| PUT | `/boxeadores/{id}` | Admin | Actualizar boxeador |
+| DELETE | `/boxeadores/{id}` | Admin | Eliminar boxeador |
+| GET | `/peleas/` | Usuario | Lista de peleas |
+| POST | `/torneos/` | Admin | Crear torneo |
+| GET | `/health` | Público | Estado del servidor |
+
+---
+
+### 📥 Ejemplos de Petición / Respuesta
+
+<details>
+<summary><b>📝 Registro de usuario (POST /register)</b></summary>
+
+**Petición:**
+
+```json
 POST /register
 {
   "username": "campeon",
   "email": "campeon@boxeo.com",
   "password": "mi_contraseña_segura"
 }
-Respuesta (201 Created):
+```
 
-json
+**Respuesta (201 Created):**
+
+```json
 {
   "id": 1,
   "username": "campeon",
   "email": "campeon@boxeo.com",
   "role": "user"
 }
-</details><details> <summary><b>🔑 Login (POST /token)</b></summary>
-Petición (form-data):
+```
 
-bash
+</details>
+
+<details>
+<summary><b>🔑 Login (POST /token)</b></summary>
+
+**Petición (form-data):**
+
+```bash
 username=campeon&password=mi_contraseña_segura
-Respuesta (200 OK):
+```
 
-json
+**Respuesta (200 OK):**
+
+```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "token_type": "bearer"
 }
-</details><details> <summary><b>👤 Obtener perfil (GET /entrenadores/me)</b></summary>
-Header: Authorization: Bearer <tu_token>
+```
 
-Respuesta (200 OK):
+</details>
 
-json
+<details>
+<summary><b>👤 Obtener perfil (GET /entrenadores/me)</b></summary>
+
+**Header:** `Authorization: Bearer <tu_token>`
+
+**Respuesta (200 OK):**
+
+```json
 {
   "id": 1,
   "username": "campeon",
   "email": "campeon@boxeo.com",
   "role": "user"
 }
-</details><details> <summary><b>📋 Listar boxeadores (GET /boxeadores/)</b></summary>
-Header: Authorization: Bearer <tu_token>
+```
 
-Respuesta (200 OK):
+</details>
 
-json
+<details>
+<summary><b>📋 Listar boxeadores (GET /boxeadores/)</b></summary>
+
+**Header:** `Authorization: Bearer <tu_token>`
+
+**Respuesta (200 OK):**
+
+```json
 [
   {
     "id": 1,
@@ -149,40 +197,56 @@ json
     "estilo": "Peek-a-boo"
   }
 ]
+```
+
 </details>
-🛡️ Seguridad y Manejo de Errores
-🔒 Seguridad
-Contraseñas: Protegidas mediante hashing con bcrypt. Nunca se almacenan en texto plano.
 
-Tokens: JWT firmados con HS256 y expiración de 30 minutos.
+---
 
-Roles: user y admin gestionados en el registro. Al intentar acceder a endpoints clave (POST, PUT, DELETE), una dependencia filtra el acceso.
+## 🛡️ Seguridad y Manejo de Errores
 
-Variables de entorno: Todas las credenciales (base de datos, secret key) se cargan desde un archivo .env.
+### 🔒 Seguridad
 
-CORS: Configurable según entorno.
+- **Contraseñas:** Protegidas mediante hashing con `bcrypt`. Nunca se almacenan en texto plano.
+- **Tokens:** JWT firmados con `HS256` y expiración de 30 minutos.
+- **Roles:** `user` y `admin` gestionados en el registro. Al intentar acceder a endpoints clave (POST, PUT, DELETE), una dependencia filtra el acceso.
+- **Variables de entorno:** Todas las credenciales (base de datos, secret key) se cargan desde un archivo `.env`.
+- **CORS:** Configurable según entorno.
 
-⚠️ Códigos de estado HTTP
-Código	Significado
-200	OK
-201	Creado
-204	Sin contenido
-400	Solicitud incorrecta
-401	No autenticado
-403	Prohibido (sin permisos)
-404	Recurso no encontrado
-409	Conflicto (nombre duplicado)
-422	Error de validación
-🧪 Pruebas y Cobertura
-Próximamente. Actualmente el proyecto está en fase de desarrollo activo. Las pruebas unitarias y de integración se añadirán en futuras versiones.
+### ⚠️ Códigos de estado HTTP
 
-bash
+| Código | Significado |
+| :--- | :--- |
+| 200 | OK |
+| 201 | Creado |
+| 204 | Sin contenido |
+| 400 | Solicitud incorrecta |
+| 401 | No autenticado |
+| 403 | Prohibido (sin permisos) |
+| 404 | Recurso no encontrado |
+| 409 | Conflicto (nombre duplicado) |
+| 422 | Error de validación |
+
+---
+
+## 🧪 Pruebas y Cobertura
+
+**Próximamente.** Actualmente el proyecto está en fase de desarrollo activo. Las pruebas unitarias y de integración se añadirán en futuras versiones.
+
+```bash
 # (Comando futuro)
 pytest
 pytest --cov=.
-📄 Licencia y Contribución
-Licencia: MIT
+```
 
-Contribuciones: Las contribuciones son bienvenidas. Abre un Issue o un Pull Request en el repositorio.
+---
 
-Hecho con ❤️ y FastAPI.
+## 📄 Licencia y Contribución
+
+**Licencia:** MIT
+
+**Contribuciones:** Las contribuciones son bienvenidas. Abre un Issue o un Pull Request en el repositorio.
+
+---
+
+**Hecho con ❤️ y FastAPI.**
