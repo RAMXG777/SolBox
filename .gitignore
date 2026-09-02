@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+alembic/versions/*.py
+*.db
+*.sqlite
+.DS_Store
+.vscode/
+*.log
