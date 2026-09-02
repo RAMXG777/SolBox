@@ -65,8 +65,8 @@ flowchart LR
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/RAMXG777/mi-backend-2026.git
-cd mi-backend-2026
+git clone https://github.com/RAMXG777/SolBox.git
+cd SolBox-2026
 
 # Crear entorno virtual
 python -m venv .venv
