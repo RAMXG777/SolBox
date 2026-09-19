@@ -16,7 +16,7 @@ import os
 load_dotenv()
 
 app = FastAPI(
-    title="Prizefighter API",
+    title="SOLBOX",
     description="API para un sistema de boxeo generacional con autenticación y roles",
     version="1.0.0"
 )
@@ -357,4 +357,4 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
 # ============================================
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "message": "Prizefighter API is running"}
+    return {"status": "ok", "message": "SOLBOX is running"}
